@@ -3,7 +3,7 @@ import { useEthers, useCall } from '@usedapp/core'
 import { Contract } from '@ethersproject/contracts'
 import { useState } from "react"
 import styled from 'styled-components';
-
+import axios from 'axios';
 const punkdom = [
   "function getDefaultDomain(address _addr, string calldata _tld) public view returns(string memory)",
   "function getDefaultDomains(address _addr) public view returns(string memory)",
@@ -100,6 +100,16 @@ function App() {
   const [checkSubmitDomain, setCheckSubmitDomain] = useState("")
   const domainHolder = useDomainHolder(checkSubmitDomain)
   const domainData = useDomainData(checkSubmitDomain)
+  const [transcript, setTranscript] = useState("")
+
+
+  async function submitAudio() {
+    const url = "http://localhost:8000/audio";
+    console.log("OK")
+    await axios.post(url).then((result) => {
+      setTranscript(result.data.transcript)
+    })
+  }
   function onChange(event) {
     setCheckDomain(event.target.value)
     console.log(event.target.value)
@@ -112,6 +122,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1> PunkWallet </h1>
+        <br></br>
+        <iframe frameborder="0" scrolling="no"  width="20%" height="500px" src="https://api.echo3D.co/webar?key=hidden-tree-0757&entry=5896c499-0e0d-4eb0-8daa-9b1ecf49a426"/>
+        <br></br>
         <Button variant="primary" onClick={() => activateBrowserWallet()}>Connect</Button>
         {account && <p>Account: {account}</p>}
         {account && chainId && <p>chain: {chainId}</p>}
@@ -122,9 +135,10 @@ function App() {
         {account && <input onChange={onChange}></input>}
         <br></br>
         {account && <input type="submit" onClick={onSubmit} value="Submit"/>}
-        <iframe width="100%" height="1000px" src="https://api.echo3D.co/webar?key=hidden-tree-0757&entry=5896c499-0e0d-4eb0-8daa-9b1ecf49a426"/>
 
         {account&& domainHolder && <p>DomainHolder: {domainHolder}</p> }
+        {account && domainHolder && <button onClick={submitAudio} > Audio </button>}
+        {account && domainHolder && <p>{transcript}</p>}
         {account && domainHolder === account && <p> You are the domain holder</p>}
         {account && domainHolder !== account && <p> You are not the domain holder</p>}
         {account&& domainData && <p>DomainData:</p> }

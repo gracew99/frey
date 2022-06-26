@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEthers, useCall } from '@usedapp/core'
 import { Contract } from '@ethersproject/contracts'
@@ -90,7 +89,6 @@ function useDefaultDomains(
         }
         return value?.[0]
       }
-      
 
 function App() {
   
@@ -124,6 +122,7 @@ function App() {
         {account && <input onChange={onChange}></input>}
         <br></br>
         {account && <input type="submit" onClick={onSubmit} value="Submit"/>}
+        <iframe width="100%" height="1000px" src="https://api.echo3D.co/webar?key=hidden-tree-0757&entry=5896c499-0e0d-4eb0-8daa-9b1ecf49a426"/>
 
         {account&& domainHolder && <p>DomainHolder: {domainHolder}</p> }
         {account && domainHolder === account && <p> You are the domain holder</p>}
